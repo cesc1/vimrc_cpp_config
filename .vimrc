@@ -61,7 +61,6 @@ endfunction
 function! InsertCppImpTemplate()
     let class = expand('%:t:r')
     let text = class . "::" . class . "() { }\n\n" .
-        \ class . "::~" . class . "() { }\n\n" .
         \ class . "::" . class . "(const " . class . "& other) {\n" .
         \ "    *this = other;\n" .
         \ "}\n\n" .
@@ -70,7 +69,8 @@ function! InsertCppImpTemplate()
         \ "        // Copy members\n" .
         \ "    }\n" .
         \ "    return *this;\n" .
-        \ "}\n"
+        \ "}\n\n" .
+        \ class . "::~" . class . "() { }\n"
 
     " Temporarily disable indentation while inserting
     setlocal noautoindent nocindent nosmartindent
