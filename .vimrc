@@ -40,7 +40,7 @@ set completeopt=menuone,noselect
 
 
 " --- Expand 'classdef' into a canonical C++ class template ---
-function! InsertCppClassTemplate()
+function! ClassDef()
     let class = expand('%:t:r')
     let text = "class   " . class . " {\n" .
         \ " public:\n" .
@@ -58,7 +58,7 @@ function! InsertCppClassTemplate()
     setlocal autoindent cindent smartindent
 endfunction
 
-function! InsertCppImpTemplate()
+function! ClassImp()
     let class = expand('%:t:r')
     let text = class . "::" . class . "() { }\n\n" .
         \ class . "::" . class . "(const " . class . "& other) {\n" .
@@ -79,5 +79,37 @@ function! InsertCppImpTemplate()
 endfunction
 
 " Create an abbreviation usable in insert mode
-command! ClassDef silent! call InsertCppClassTemplate()
-command! ClassImp silent! call InsertCppImpTemplate()
+command! ClassDef silent! call ClassDef()
+command! ClassImp silent! call ClassImp()
+
+"Function to insert a header at the top of the file"
+function! Header()
+    normal! gg
+
+    call append(0, [
+    \ '/**************************************************************************',
+    \ ' * File: ' . expand('%:t'),
+    \ ' * Author: Your Name <your.email@example.com>',
+    \ ' * Created: ' . strftime("%Y-%m-%d"),
+    \ ' *',
+    \ ' * Copyright (c) ' . strftime("%Y") . ' Your Name',
+    \ ' *',
+    \ ' * This software is released under the MIT License.',
+    \ ' * See https://opensource.org/licenses/MIT for details.',
+    \ ' **************************************************************************/',
+    \ ''
+    \ ])
+endfunction
+
+command! Header call Header()
+
+"Function to insert protection to .h files"
+function! HeaderProtection()
+    let l:filename = expand('%:t')
+    let l:guard = toupper(substitute(l:filename, '\.', '_', 'g')) . '_'
+    call append(0, '#ifndef ' . l:guard)
+    call append(1, '# define ' . l:guard)
+    call append(line('$'), '#endif')
+endfunction
+
+command! HeaderProtection call HeaderProtection()
