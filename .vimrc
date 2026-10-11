@@ -1,8 +1,13 @@
 syntax on
-set expandtab
+" If C, noexpandtab. If CPP, expandtab"
+set noexpandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
+
+" User and Email for Stdheader"
+let g:user42 = "fraguirr"
+let g:mail42 = "fraguirr@student.42barcelona.com"
 
 " ----------------------"
 " Basic config for C/C++
