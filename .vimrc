@@ -5,6 +5,9 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 
+" Show lines selected in visual mode"
+set showcmd
+
 " User and Email for Stdheader"
 let g:user42 = "fraguirr"
 let g:mail42 = "fraguirr@student.42barcelona.com"
